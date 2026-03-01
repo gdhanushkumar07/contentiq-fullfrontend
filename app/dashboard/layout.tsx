@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   return (
     <div
       className="flex min-h-screen"
-      style={{ background: 'linear-gradient(160deg, #050816 0%, #0B1120 100%)' }}
+      style={{ background: 'var(--bg-page)' }}
     >
       {/* Sidebar */}
       <Sidebar />

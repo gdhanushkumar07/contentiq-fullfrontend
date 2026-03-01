@@ -4,6 +4,7 @@ import './globals.css'
 import { Providers } from './providers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,11 +20,14 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions)
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-[#050816] text-white antialiased`}>
-        <Providers session={session}>
-          {children}
-        </Providers>
+    // suppressHydrationWarning prevents SSR/client mismatch for the `dark` class
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`} style={{ background: 'var(--bg-page)', color: 'var(--text-primary)' }}>
+        <ThemeProvider>
+          <Providers session={session}>
+            {children}
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   )
