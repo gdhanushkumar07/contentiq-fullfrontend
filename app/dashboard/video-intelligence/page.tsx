@@ -3,7 +3,9 @@
 import { SparklesIcon } from '@heroicons/react/24/outline'
 import { Eye, Zap, TrendingUp, Clock, RefreshCcw, Shield, Scissors } from 'lucide-react'
 import { useRef, useState } from 'react'
-
+import { useRouter } from "next/navigation"
+import { useEffect} from "react"
+import { useParams } from "next/navigation"
 const STATS = [
   { label: 'Frames Analyzed', value: '2.4M', color: '#38BDF8' },
   { label: 'Scenes Detected', value: '18,392', color: '#8B5CF6' },
@@ -66,6 +68,7 @@ function CircularProgress({ score, size = 140 }: { score: number; size?: number 
 }
 
 export default function VideoIntelligencePage() {
+    const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [uploadedKey, setUploadedKey] = useState<string | null>(null)
@@ -91,9 +94,9 @@ export default function VideoIntelligencePage() {
 
       const data = await res.json()
 
-      if (data.success) {
-        setUploadedKey(data.key) // 🔥 trigger results view
-      } else {
+    if (data.videoId) {
+  router.push(`/dashboard/video-intelligence/${data.videoId}`)
+     }else {
         alert("Upload failed")
       }
     } catch (err) {
